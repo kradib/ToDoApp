@@ -2,6 +2,8 @@ package com.example.todoapp;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,15 +17,20 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.todoapp.Adapter.NotesAdapter;
+import com.example.todoapp.ClickListeners.ItemClickListener;
+import com.example.todoapp.model.Note;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
 
 public class MyNotesActivity extends AppCompatActivity {
 
     String UserName;
     String FullName;
     FloatingActionButton fabAdd;
-    TextView titleView;
-    TextView descriptionView;
+    RecyclerView recyclerViewNotes;
+    ArrayList<Note> noteList =new ArrayList<>();
     SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +67,7 @@ public class MyNotesActivity extends AppCompatActivity {
 
     private void bindView() {
         fabAdd=findViewById(R.id.fabAddNotes);
-        titleView=findViewById(R.id.Text_View_Title);
-        descriptionView=findViewById(R.id.Text_View_Description);
+        recyclerViewNotes=findViewById(R.id.recyclerViewNotes);
     }
 
     private  void getDialogBoxOpened(){
@@ -77,9 +83,28 @@ public class MyNotesActivity extends AppCompatActivity {
         buttonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                titleView.setText(title.getText().toString());
-                descriptionView.setText(description.getText().toString());
-                dialog.hide();
+                Note note=new Note();
+                note.setTitle(title.getText().toString());
+                note.setDescription(description.getText().toString());
+                if(!TextUtils.isEmpty(note.getTitle()) && !TextUtils.isEmpty(note.getDescription())){
+                    noteList.add(note);
+                    setRecyclerView();
+                    dialog.hide();
+                }
+                else if(TextUtils.isEmpty(note.getDescription()) && !TextUtils.isEmpty(note.getTitle())){
+                    Toast.makeText(MyNotesActivity.this, "Don't want to put description? Okay, we did it for you", Toast.LENGTH_SHORT).show();
+                    note.setDescription(note.getTitle());
+                    noteList.add(note);
+                    setRecyclerView();
+                    dialog.hide();
+                }
+                else{
+                    Toast.makeText(MyNotesActivity.this, "Can't skip both title & description :)", Toast.LENGTH_SHORT).show();
+                }
+
+                //Log.d("note description", note.getDescription());
+
+
             }
         });
 
@@ -90,5 +115,24 @@ public class MyNotesActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void setRecyclerView() {
+        ItemClickListener itemClickListener=new ItemClickListener() {
+            @Override
+            public void onClick(Note note) {
+                Log.d("Onclick", "onClick: Worked");
+                Intent intent=new Intent(MyNotesActivity.this,DetailActivity.class);
+                intent.putExtra(AppConstant.TITLE,note.getTitle());
+                intent.putExtra(AppConstant.DESCRIPTION,note.getDescription());
+                startActivity(intent);
+            }
+        };
+        NotesAdapter notesAdapter=new NotesAdapter(noteList,itemClickListener);
+        LinearLayoutManager linearLayoutManager= new LinearLayoutManager(MyNotesActivity.this);
+        //assign orientation
+        linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
+        recyclerViewNotes.setLayoutManager(linearLayoutManager);
+        recyclerViewNotes.setAdapter(notesAdapter);
     }
 }

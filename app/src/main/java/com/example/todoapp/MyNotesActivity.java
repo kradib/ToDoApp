@@ -4,7 +4,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,19 +24,14 @@ public class MyNotesActivity extends AppCompatActivity {
     FloatingActionButton fabAdd;
     TextView titleView;
     TextView descriptionView;
+    SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_notes);
-
-        fabAdd=findViewById(R.id.fabAddNotes);
-        Intent intent=getIntent();
-        FullName=intent.getStringExtra("FullName");
-        UserName=intent.getStringExtra("UserName");
-        String titlebar="Hi, "+UserName+"!. Welcome master.";
-        getSupportActionBar().setTitle(titlebar);
-        titleView=findViewById(R.id.Text_View_Title);
-        descriptionView=findViewById(R.id.Text_View_Description);
+        setUpSharedPreference();
+        bindView();
+        getIntentData();
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,9 +39,31 @@ public class MyNotesActivity extends AppCompatActivity {
 
             }
         });
+        String titlebar="Hi, "+UserName+"!. Welcome master.";
+        getSupportActionBar().setTitle(titlebar);
 
 
     }
+
+    private void setUpSharedPreference() {
+        sharedPreferences=getSharedPreferences(Shared_pref_constant.SHARED_PREF,MODE_PRIVATE);
+    }
+
+    private void getIntentData() {
+        Intent intent=getIntent();
+        FullName=intent.getStringExtra(AppConstant.FULL_NAME);
+        UserName=intent.getStringExtra(AppConstant.USER_NAME);
+        if(TextUtils.isEmpty(UserName)){
+            UserName=sharedPreferences.getString(Shared_pref_constant.USER_NAME,"");
+        }
+    }
+
+    private void bindView() {
+        fabAdd=findViewById(R.id.fabAddNotes);
+        titleView=findViewById(R.id.Text_View_Title);
+        descriptionView=findViewById(R.id.Text_View_Description);
+    }
+
     private  void getDialogBoxOpened(){
         View view= LayoutInflater.from(MyNotesActivity.this).inflate(R.layout.add_notes_dialogs_layout,null);
         final EditText title=view.findViewById(R.id.Edit_Text_Title);

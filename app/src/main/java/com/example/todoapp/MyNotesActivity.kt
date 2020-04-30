@@ -24,8 +24,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.*
 
 class MyNotesActivity: AppCompatActivity() {
-    lateinit var UserName: String
-    lateinit var FullName: String
+    var UserName: String=""
+    var FullName: String=""
     lateinit var fabAdd: FloatingActionButton
     lateinit var recyclerViewNotes: RecyclerView
     var noteList = ArrayList<Note>()

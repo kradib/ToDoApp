@@ -1,5 +1,6 @@
-package com.example.todoapp
+package com.example.todoapp.View
 
+import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -14,12 +15,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todoapp.Adapter.NotesAdapter
-import com.example.todoapp.AppConstant.FULL_NAME
-import com.example.todoapp.AppConstant.USER_NAME
+import com.example.todoapp.utils.AppConstant
+import com.example.todoapp.utils.AppConstant.FULL_NAME
+import com.example.todoapp.utils.AppConstant.USER_NAME
 import com.example.todoapp.ClickListeners.ItemClickListener
-import com.example.todoapp.Shared_pref_constant.SHARED_PREF
-import com.example.todoapp.Shared_pref_constant.USERNAME
-import com.example.todoapp.model.Note
+import com.example.todoapp.NotesApp
+import com.example.todoapp.R
+import com.example.todoapp.db.Note
+import com.example.todoapp.utils.Shared_pref_constant.SHARED_PREF
+import com.example.todoapp.utils.Shared_pref_constant.USERNAME
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.*
 
@@ -36,7 +41,7 @@ class MyNotesActivity: AppCompatActivity() {
         setUpSharedPreference()
         bindView()
         getIntentData()
-
+        getDataFromDatabase()
         fabAdd.setOnClickListener( object: View.OnClickListener{
             override fun onClick(v: View?) {
                getDialogBoxOpened()
@@ -46,6 +51,13 @@ class MyNotesActivity: AppCompatActivity() {
 
         val titlebar = "Hi, $UserName!. Welcome master."
         supportActionBar?.title = titlebar
+        setRecyclerView()
+    }
+
+    private fun getDataFromDatabase() {
+        val notesApp=applicationContext as NotesApp
+        val notesDao=notesApp.getNotesdb().notesDao()
+        noteList.addAll(notesDao.getAll())
     }
 
     private fun getDialogBoxOpened() {
@@ -59,10 +71,11 @@ class MyNotesActivity: AppCompatActivity() {
         dialog.show()
         buttonSubmit.setOnClickListener(object: View.OnClickListener{
             override fun onClick(v: View?) {
-                val note = Note(title.text.toString(), description.text.toString())
+                val note = Note(title=title.text.toString(), description = description.text.toString())
                 if (!note.title.isEmpty() && !note.description.isEmpty()) {
                     noteList.add(note)
-                    setRecyclerView()
+                    addNoteToDb(note)
+
                     dialog.hide()
                 } else {
                     Toast.makeText(this@MyNotesActivity, "Can't skip both title & description :)", Toast.LENGTH_SHORT).show()
@@ -74,6 +87,14 @@ class MyNotesActivity: AppCompatActivity() {
                dialog.hide()
             }
         })
+
+
+    }
+
+    private fun addNoteToDb(note: Note) {
+        val notesApp=applicationContext as NotesApp
+        val notesDao=notesApp.getNotesdb().notesDao()
+        notesDao.insert(note)
 
 
     }
@@ -100,10 +121,17 @@ class MyNotesActivity: AppCompatActivity() {
     private fun setRecyclerView() {
         var itemClickListener= object: ItemClickListener{
             override fun onClick(note: Note) {
-                var intent= Intent(this@MyNotesActivity,DetailActivity::class.java)
+                var intent= Intent(this@MyNotesActivity, DetailActivity::class.java)
                 intent.putExtra(AppConstant.TITLE,note.title)
                 intent.putExtra(AppConstant.DESCRIPTION,note.description)
                 startActivity(intent)
+            }
+
+            override fun onUpdate(note: Note) {
+                //Toast.makeText(this@MyNotesActivity,"button clicked",Toast.LENGTH_SHORT).show()
+                val notesApp=applicationContext as NotesApp
+                val notesDao=notesApp.getNotesdb().notesDao()
+                notesDao.updateNotes(note)
             }
 
         }

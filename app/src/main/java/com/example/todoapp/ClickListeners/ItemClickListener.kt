@@ -1,7 +1,9 @@
 package com.example.todoapp.ClickListeners
 
-import com.example.todoapp.model.Note
+import com.example.todoapp.db.Note
+
 
 interface ItemClickListener {
-    fun onClick(note:Note)
+    fun onClick(note: Note)
+    fun onUpdate(note: Note)
 }

@@ -1,4 +1,4 @@
-package com.example.todoapp
+package com.example.todoapp.View
 
 import android.content.Context
 import android.content.Intent
@@ -8,11 +8,12 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.todoapp.AppConstant.FULL_NAME
-import com.example.todoapp.AppConstant.USER_NAME
-import com.example.todoapp.Shared_pref_constant.IS_LOGGED_IN
-import com.example.todoapp.Shared_pref_constant.SHARED_PREF
-import com.example.todoapp.Shared_pref_constant.USERNAME
+import com.example.todoapp.utils.AppConstant.FULL_NAME
+import com.example.todoapp.utils.AppConstant.USER_NAME
+import com.example.todoapp.R
+import com.example.todoapp.utils.Shared_pref_constant
+import com.example.todoapp.utils.Shared_pref_constant.IS_LOGGED_IN
+import com.example.todoapp.utils.Shared_pref_constant.SHARED_PREF
 
 class LoginActivity: AppCompatActivity() {
     lateinit var full_name: EditText

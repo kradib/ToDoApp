@@ -1,11 +1,11 @@
-package com.example.todoapp
+package com.example.todoapp.View
 
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.todoapp.utils.Shared_pref_constant
 
 class SplashActivity: AppCompatActivity() {
     lateinit var sharedPreferences: SharedPreferences
@@ -22,11 +22,11 @@ class SplashActivity: AppCompatActivity() {
     private fun checkLoginStatus() {
         val isLoggedIn=sharedPreferences.getBoolean(Shared_pref_constant.IS_LOGGED_IN,false)
         if (isLoggedIn){
-            val intent= Intent(this@SplashActivity,MyNotesActivity::class.java)
+            val intent= Intent(this@SplashActivity, MyNotesActivity::class.java)
             startActivity(intent)
         }
         else{
-            val intent=Intent(this@SplashActivity,LoginActivity::class.java)
+            val intent=Intent(this@SplashActivity, LoginActivity::class.java)
             startActivity(intent)
         }
     }

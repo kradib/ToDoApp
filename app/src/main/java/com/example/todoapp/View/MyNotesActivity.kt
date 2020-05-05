@@ -31,6 +31,7 @@ import java.util.*
 class MyNotesActivity: AppCompatActivity() {
     var UserName: String=""
     var FullName: String=""
+    val REQUEST_CODE_ADDNOTES=100
     lateinit var fabAdd: FloatingActionButton
     lateinit var recyclerViewNotes: RecyclerView
     var noteList = ArrayList<Note>()
@@ -44,7 +45,9 @@ class MyNotesActivity: AppCompatActivity() {
         getDataFromDatabase()
         fabAdd.setOnClickListener( object: View.OnClickListener{
             override fun onClick(v: View?) {
-               getDialogBoxOpened()
+               //getDialogBoxOpened()
+                val intent=Intent(this@MyNotesActivity,AddNotesActivity::class.java)
+                startActivityForResult(intent,REQUEST_CODE_ADDNOTES)
             }
 
         })
@@ -140,6 +143,20 @@ class MyNotesActivity: AppCompatActivity() {
         linearLayoutManager.orientation=RecyclerView.VERTICAL
         recyclerViewNotes.layoutManager=linearLayoutManager
         recyclerViewNotes.adapter=notesAdapter
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode==REQUEST_CODE_ADDNOTES){
+            val title= data?.getStringExtra(AppConstant.TITLE)
+            val description= data?.getStringExtra(AppConstant.DESCRIPTION)
+            val imagepath=data?.getStringExtra(AppConstant.IMAGE_PATH)
+            val notes= Note(title=title!!,description = description!!,imagePath = imagepath!!,isTaskCompleted = false)
+            addNoteToDb(notes)
+            noteList.add(notes)
+            recyclerViewNotes.adapter?.notifyItemChanged(noteList.size-1)
+
+        }
     }
 
 

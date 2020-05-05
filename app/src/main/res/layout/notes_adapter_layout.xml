@@ -15,7 +15,7 @@
             android:layout_marginEnd="16dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/imageViewAdapter"
             app:layout_constraintStart_toEndOf="@id/checkBoxCheckStatus"
             android:layout_height="wrap_content"/>
         <TextView
@@ -39,6 +39,16 @@
             app:layout_constraintTop_toTopOf="@id/textViewTitle"
             app:layout_constraintBottom_toBottomOf="@id/textViewDescription"
             />
+        <ImageView
+            android:layout_width="40dp"
+            app:layout_constraintTop_toTopOf="@id/textViewTitle"
+            app:layout_constraintBottom_toBottomOf="@id/textViewDescription"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/textViewTitle"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:id="@+id/imageViewAdapter"
+            android:layout_height="40dp"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,4 +10,6 @@ object AppConstant {
     val TITLE = "Title"
 
     val DESCRIPTION = "Description"
+
+    val IMAGE_PATH= "picturepath"
 }

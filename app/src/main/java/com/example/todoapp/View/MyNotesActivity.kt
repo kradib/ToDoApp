@@ -14,6 +14,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.work.Constraints
+import androidx.work.PeriodicWorkRequest
+import androidx.work.WorkManager
 import com.example.todoapp.Adapter.NotesAdapter
 import com.example.todoapp.utils.AppConstant
 import com.example.todoapp.utils.AppConstant.FULL_NAME
@@ -24,9 +27,11 @@ import com.example.todoapp.R
 import com.example.todoapp.db.Note
 import com.example.todoapp.utils.Shared_pref_constant.SHARED_PREF
 import com.example.todoapp.utils.Shared_pref_constant.USERNAME
+import com.example.todoapp.workmanager.MyWorker
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 class MyNotesActivity: AppCompatActivity() {
     var UserName: String=""
@@ -55,6 +60,15 @@ class MyNotesActivity: AppCompatActivity() {
         val titlebar = "Hi, $UserName!. Welcome master."
         supportActionBar?.title = titlebar
         setRecyclerView()
+        setUpWorkManager()
+    }
+
+    private fun setUpWorkManager() {
+        val comstraints=Constraints.Builder().build()
+        val request = PeriodicWorkRequest.Builder(MyWorker::class.java,15,TimeUnit.MINUTES)
+                .setConstraints(comstraints)
+                .build()
+        WorkManager.getInstance().enqueue(request)
     }
 
     private fun getDataFromDatabase() {

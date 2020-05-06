@@ -6,6 +6,8 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -175,6 +177,20 @@ class MyNotesActivity: AppCompatActivity() {
             recyclerViewNotes.adapter?.notifyItemChanged(noteList.size-1)
 
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflator= menuInflater
+        inflator.inflate(R.menu.menu,menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(item?.itemId==R.id.menuitem){
+            val intent: Intent = Intent(this@MyNotesActivity, BlogActivity::class.java)
+            startActivity(intent)
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 

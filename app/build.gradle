@@ -43,6 +43,7 @@ dependencies {
     implementation 'androidx.work:work-runtime:2.0.1'
     implementation 'com.google.firebase:firebase-messaging:20.1.6'
     implementation 'com.google.firebase:firebase-analytics:17.2.2'
+    implementation 'com.amitshekhar.android:android-networking:1.0.2'
 
 }
 apply plugin: 'com.google.gms.google-services'

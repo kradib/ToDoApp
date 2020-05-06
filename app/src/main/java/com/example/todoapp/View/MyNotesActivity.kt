@@ -48,19 +48,23 @@ class MyNotesActivity: AppCompatActivity() {
         bindView()
         getIntentData()
         getDataFromDatabase()
+        fabButtonClick()
+        setRecyclerView()
+        setUpWorkManager()
+    }
+
+    private fun fabButtonClick() {
         fabAdd.setOnClickListener( object: View.OnClickListener{
             override fun onClick(v: View?) {
-               //getDialogBoxOpened()
+                //getDialogBoxOpened()
                 val intent=Intent(this@MyNotesActivity,AddNotesActivity::class.java)
                 startActivityForResult(intent,REQUEST_CODE_ADDNOTES)
             }
 
         })
 
-        val titlebar = "Hi, $UserName!. Welcome master."
+        val titlebar = "Hi, $UserName!. Warm Welcome :)"
         supportActionBar?.title = titlebar
-        setRecyclerView()
-        setUpWorkManager()
     }
 
     private fun setUpWorkManager() {
@@ -77,36 +81,36 @@ class MyNotesActivity: AppCompatActivity() {
         noteList.addAll(notesDao.getAll())
     }
 
-    private fun getDialogBoxOpened() {
-       val view= LayoutInflater.from(this@MyNotesActivity).inflate(R.layout.add_notes_dialogs_layout,null)
-        val title = view.findViewById<EditText>(R.id.Edit_Text_Title)
-        val description = view.findViewById<EditText>(R.id.Edit_Text_Description)
-        val buttonSubmit = view.findViewById<Button>(R.id.ToDoAddButton)
-        val buttonBack = view.findViewById<Button>(R.id.ToDoBackButton)
-        val dialog = AlertDialog.Builder(this@MyNotesActivity)
-                .setView(view).setCancelable(false).create()
-        dialog.show()
-        buttonSubmit.setOnClickListener(object: View.OnClickListener{
-            override fun onClick(v: View?) {
-                val note = Note(title=title.text.toString(), description = description.text.toString())
-                if (!note.title.isEmpty() && !note.description.isEmpty()) {
-                    noteList.add(note)
-                    addNoteToDb(note)
-
-                    dialog.hide()
-                } else {
-                    Toast.makeText(this@MyNotesActivity, "Can't skip both title & description :)", Toast.LENGTH_SHORT).show()
-                }
-            }
-        })
-        buttonBack.setOnClickListener(object : View.OnClickListener{
-            override fun onClick(v: View?) {
-               dialog.hide()
-            }
-        })
-
-
-    }
+//    private fun getDialogBoxOpened() {
+//       val view= LayoutInflater.from(this@MyNotesActivity).inflate(R.layout.add_notes_dialogs_layout,null)
+//        val title = view.findViewById<EditText>(R.id.Edit_Text_Title)
+//        val description = view.findViewById<EditText>(R.id.Edit_Text_Description)
+//        val buttonSubmit = view.findViewById<Button>(R.id.ToDoAddButton)
+//        val buttonBack = view.findViewById<Button>(R.id.ToDoBackButton)
+//        val dialog = AlertDialog.Builder(this@MyNotesActivity)
+//                .setView(view).setCancelable(false).create()
+//        dialog.show()
+//        buttonSubmit.setOnClickListener(object: View.OnClickListener{
+//            override fun onClick(v: View?) {
+//                val note = Note(title=title.text.toString(), description = description.text.toString())
+//                if (!note.title.isEmpty() && !note.description.isEmpty()) {
+//                    noteList.add(note)
+//                    addNoteToDb(note)
+//
+//                    dialog.hide()
+//                } else {
+//                    Toast.makeText(this@MyNotesActivity, "Can't skip both title & description :)", Toast.LENGTH_SHORT).show()
+//                }
+//            }
+//        })
+//        buttonBack.setOnClickListener(object : View.OnClickListener{
+//            override fun onClick(v: View?) {
+//               dialog.hide()
+//            }
+//        })
+//
+//
+//    }
 
     private fun addNoteToDb(note: Note) {
         val notesApp=applicationContext as NotesApp

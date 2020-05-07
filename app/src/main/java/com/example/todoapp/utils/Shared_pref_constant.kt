@@ -7,4 +7,6 @@ object Shared_pref_constant {
     val IS_LOGGED_IN = "is_logged_in"
 
     val USERNAME = "UserName"
+
+    val ON_BOARDED_SUCCESSFULLY ="on_boarded_successfully"
 }

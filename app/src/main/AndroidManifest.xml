@@ -15,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".View.BlogActivity"></activity>
+        <activity android:name=".onboarding.OnboardingActivity" android:theme="@style/NoToolBar"/>
+        <activity android:name=".View.BlogActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -40,7 +41,6 @@
         <activity android:name=".View.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

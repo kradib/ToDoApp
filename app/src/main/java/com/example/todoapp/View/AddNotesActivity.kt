@@ -7,13 +7,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -56,10 +54,15 @@ class AddNotesActivity : AppCompatActivity() {
         submitButton.setOnClickListener(object : View.OnClickListener{
             override fun onClick(v: View?) {
                 intent = Intent()
-                intent.putExtra(AppConstant.TITLE,editTextTitle.text.toString())
-                intent.putExtra(AppConstant.DESCRIPTION,editTextDescription.text.toString())
-                intent.putExtra(AppConstant.IMAGE_PATH,picturePath)
-                setResult(Activity.RESULT_OK,intent)
+                if(!TextUtils.isEmpty(editTextTitle.text.toString())){
+                    intent.putExtra(AppConstant.TITLE,editTextTitle.text.toString())
+                    intent.putExtra(AppConstant.DESCRIPTION,editTextDescription.text.toString())
+                    intent.putExtra(AppConstant.IMAGE_PATH,picturePath)
+                    setResult(Activity.RESULT_OK,intent)
+                }
+                else{
+                    Toast.makeText(this@AddNotesActivity,"Title is mandatory",Toast.LENGTH_SHORT).show()
+                }
                 finish()
             }
 
@@ -164,24 +167,30 @@ class AddNotesActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode==Activity.RESULT_OK){
-            if(requestCode==REQUEST_CODE_GALLERY){
-                val selectImage= data?.data
-                val filePath= arrayOf(MediaStore.Images.Media.DATA)
-                val c = contentResolver.query(selectImage!!,filePath,null,null,null)
-                if (c != null) {
-                    c.moveToFirst()
-                    val columnIndex=c.getColumnIndex(filePath[0])
-                    picturePath=c.getString(columnIndex)
-                    c.close()
+        if(data!=null){
+            if(resultCode==Activity.RESULT_OK){
+                if(requestCode==REQUEST_CODE_GALLERY){
+                    val selectImage= data?.data
+                    val filePath= arrayOf(MediaStore.Images.Media.DATA)
+                    val c = contentResolver.query(selectImage!!,filePath,null,null,null)
+                    if (c != null) {
+                        c.moveToFirst()
+                        val columnIndex=c.getColumnIndex(filePath[0])
+                        picturePath=c.getString(columnIndex)
+                        c.close()
+                        Glide.with(this).load(picturePath).into(imageView)
+                    }
+
+                }
+                else if(requestCode==REQUEST_CODE_CAMERA){
+                    Log.d("hello","here I am")
                     Glide.with(this).load(picturePath).into(imageView)
                 }
-
-            }
-            else if(requestCode==REQUEST_CODE_CAMERA){
-                Log.d("hello","here I am")
-                Glide.with(this).load(picturePath).into(imageView)
             }
         }
+        else{
+
+        }
+
     }
 }

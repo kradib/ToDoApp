@@ -13,10 +13,12 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
+
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".onboarding.OnboardingActivity" android:theme="@style/NoToolBar"/>
-        <activity android:name=".View.BlogActivity" />
+        <activity android:name=".onboarding.OnboardingActivity" android:theme="@style/NoToolBar"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".View.BlogActivity"  android:screenOrientation="portrait"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -36,17 +38,17 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".View.AddNotesActivity" />
-        <activity android:name=".View.MyNotesActivity" />
-        <activity android:name=".View.SplashActivity">
+        <activity android:name=".View.AddNotesActivity"  android:screenOrientation="portrait"/>
+        <activity android:name=".View.MyNotesActivity"  android:screenOrientation="portrait"/>
+        <activity android:name=".View.SplashActivity"  android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".View.DetailActivity" />
-        <activity android:name=".View.LoginActivity" />
-        <activity android:name=".View.MainActivity" />
+        <activity android:name=".View.DetailActivity"  android:screenOrientation="portrait"/>
+        <activity android:name=".View.LoginActivity"  android:screenOrientation="portrait"/>
+        <activity android:name=".View.MainActivity"  android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

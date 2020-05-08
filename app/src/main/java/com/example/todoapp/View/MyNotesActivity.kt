@@ -169,16 +169,22 @@ class MyNotesActivity: AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode==REQUEST_CODE_ADDNOTES){
-            val title= data?.getStringExtra(AppConstant.TITLE)
-            val description= data?.getStringExtra(AppConstant.DESCRIPTION)
-            val imagepath=data?.getStringExtra(AppConstant.IMAGE_PATH)
-            val notes= Note(title=title!!,description = description!!,imagePath = imagepath!!,isTaskCompleted = false)
-            addNoteToDb(notes)
-            noteList.add(notes)
-            recyclerViewNotes.adapter?.notifyItemChanged(noteList.size-1)
+        if(data!=null) {
+            if (requestCode == REQUEST_CODE_ADDNOTES) {
+                val title = data?.getStringExtra(AppConstant.TITLE)
+                val description = data?.getStringExtra(AppConstant.DESCRIPTION)
+                val imagepath = data?.getStringExtra(AppConstant.IMAGE_PATH)
+                val notes = Note(title = title!!, description = description!!, imagePath = imagepath!!, isTaskCompleted = false)
+                addNoteToDb(notes)
+                noteList.add(notes)
+                recyclerViewNotes.adapter?.notifyItemChanged(noteList.size - 1)
 
+            }
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

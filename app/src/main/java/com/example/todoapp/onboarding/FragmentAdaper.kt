@@ -13,12 +13,15 @@ class FragmentAdaper(fragmentManager:FragmentManager): FragmentStatePagerAdapter
             1 -> {
                 return OnBoardingTwoFragment()
             }
+            2->{
+                return OnBoardingThreeFragment()
+            }
 
         }
         return OnBoardingTwoFragment()
     }
 
     override fun getCount(): Int {
-       return 2
+       return 3
     }
 }

@@ -10,7 +10,7 @@ import com.example.todoapp.R
 import com.example.todoapp.View.LoginActivity
 import com.example.todoapp.utils.Shared_pref_constant
 
-class OnboardingActivity : AppCompatActivity(),OnBoardingOneFragment.OnNextClick,OnBoardingTwoFragment.OnOptions {
+class OnboardingActivity : AppCompatActivity(),OnBoardingOneFragment.OnNextClick,OnBoardingTwoFragment.OnOptionsOne,OnBoardingThreeFragment.OnOptionsTwo {
     lateinit var viewPager: ViewPager
     lateinit var sharedPreferences: SharedPreferences
     lateinit var editor:SharedPreferences.Editor
@@ -35,15 +35,23 @@ class OnboardingActivity : AppCompatActivity(),OnBoardingOneFragment.OnNextClick
         viewPager.currentItem=1
     }
 
-    override fun onClickNext() {
+    override fun onClickOneNext() {
+        viewPager.currentItem=2
+    }
+
+    override fun onClickOnePrev() {
+        viewPager.currentItem=0
+    }
+
+    override fun onClickTwoNext() {
         editor=sharedPreferences.edit()
         editor.putBoolean(Shared_pref_constant.ON_BOARDED_SUCCESSFULLY,true)
         editor.apply()
-       val intent= Intent(this@OnboardingActivity,LoginActivity::class.java)
+        val intent= Intent(this@OnboardingActivity,LoginActivity::class.java)
         startActivity(intent)
     }
 
-    override fun onClickPrev() {
-        viewPager.currentItem=0
+    override fun onClickTwoPrev() {
+        viewPager.currentItem=1
     }
 }

@@ -4,23 +4,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#B0F9F2"
     tools:context=".View.DetailActivity">
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:id="@+id/ImageDetail"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/TextViewTitle_Detail"/>
     <TextView
         android:layout_width="0dp"
         android:id="@+id/TextViewTitle_Detail"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="36dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ImageDetail"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:textColor="#800080"
         android:layout_height="wrap_content"/>
     <TextView
         android:layout_width="0dp"
         android:id="@+id/TextViewDescription_Detail"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="36dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
+        android:textAlignment="center"
         app:layout_constraintStart_toStartOf="@id/TextViewTitle_Detail"
         app:layout_constraintEnd_toEndOf="@id/TextViewTitle_Detail"
         app:layout_constraintTop_toBottomOf="@id/TextViewTitle_Detail"

@@ -141,12 +141,14 @@ class MyNotesActivity: AppCompatActivity() {
     private fun setUpSharedPreference() {
         sharedPreferences = getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE)
     }
+
     private fun setRecyclerView() {
         var itemClickListener= object: ItemClickListener{
             override fun onClick(note: Note) {
                 var intent= Intent(this@MyNotesActivity, DetailActivity::class.java)
                 intent.putExtra(AppConstant.TITLE,note.title)
                 intent.putExtra(AppConstant.DESCRIPTION,note.description)
+                intent.putExtra(AppConstant.IMAGE_PATH,note.imagePath)
                 startActivity(intent)
             }
 
@@ -187,8 +189,10 @@ class MyNotesActivity: AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(item?.itemId==R.id.menuitem){
-            val intent: Intent = Intent(this@MyNotesActivity, BlogActivity::class.java)
-            startActivity(intent)
+            finish()
+            //as of now we I logout button in menu
+            //val intent: Intent = Intent(this@MyNotesActivity, BlogActivity::class.java)
+            //startActivity(intent)
         }
         return super.onOptionsItemSelected(item)
     }

@@ -32,7 +32,6 @@ class AddNotesActivity : AppCompatActivity() {
     lateinit var editTextDescription: EditText
     lateinit var imageView: ImageView
     lateinit var submitButton: Button
-    lateinit var backButton: Button
     val REQUEST_CODE_GALLERY=2
     val REQUEST_CODE_CAMERA=1
     val MY_PERMISSION_CODE=124
@@ -65,12 +64,12 @@ class AddNotesActivity : AppCompatActivity() {
             }
 
         })
-        backButton.setOnClickListener(object : View.OnClickListener{
-            override fun onClick(v: View?) {
-                onBackPressed()
-            }
-
-        })
+//        backButton.setOnClickListener(object : View.OnClickListener{
+//            override fun onClick(v: View?) {
+//                onBackPressed()
+//            }
+//
+//        })
     }
 
     private fun checkRequestPermission(): Boolean {
@@ -103,6 +102,9 @@ class AddNotesActivity : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+    }
     private fun setUpDialog() {
         val view = LayoutInflater.from(this).inflate(R.layout.dailog_selector,null)
         val textViewCamera: TextView = view.findViewById(R.id.TextViewCamera)
@@ -157,7 +159,7 @@ class AddNotesActivity : AppCompatActivity() {
         editTextDescription=findViewById(R.id.Edit_Text_Description)
         imageView=findViewById(R.id.imageView)
         submitButton=findViewById(R.id.ToDoAddButton)
-        backButton=findViewById(R.id.ToDoBackButton)
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

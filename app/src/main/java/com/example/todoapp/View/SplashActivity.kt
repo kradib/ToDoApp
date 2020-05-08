@@ -5,6 +5,8 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.todoapp.R
@@ -15,11 +17,28 @@ import com.google.firebase.iid.FirebaseInstanceId
 
 class SplashActivity: AppCompatActivity() {
     lateinit var sharedPreferences: SharedPreferences
+    lateinit var imageView:ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_splash)
+        bindView()
         setSharedPreferences()
         checkLoginStatus()
         getFCMToken()
+        loginButtonClicked()
+    }
+
+    private fun loginButtonClicked() {
+        imageView.setOnClickListener(object : View.OnClickListener{
+            override fun onClick(v: View?) {
+                checkLoginStatus()
+            }
+
+        })
+    }
+
+    private fun bindView() {
+      imageView=findViewById(R.id.splashImage)
     }
 
     private fun getFCMToken() {
